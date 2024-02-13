@@ -1,7 +1,7 @@
-const { categoryList, getCategory, addCategory, editCategory, deleteCategory } = require('../controller/category')
 const router = require('express').Router()
 const { validateCategory } = require('../common/validation')
 const multer = require('multer')
+const { categoryList, getCategory, addCategory, editCategory, deleteCategory } = require('../controller/category')
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

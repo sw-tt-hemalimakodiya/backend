@@ -5,3 +5,7 @@ nodemon
 eslint
 express
 mongoose
+bcrypt
+jsonwebtoken
+crypto-js
+nodemailer
