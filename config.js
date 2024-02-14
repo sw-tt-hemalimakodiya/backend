@@ -7,9 +7,9 @@ module.exports = {
   jwtSecretKey: 'SUPPAMA@2021',
   jwtExpiresIn: '365d',
   smtpServices: 'gmail',
-  smtpHost: 'smtpgmail.com',
-  smtpPort: 587,
-  smtpSecure: false,
+  smtpHost: 'smtp.gmail.com',
+  smtpPort: 465,
+  smtpSecure: true,
   smtpUser: 'hml.technoapps92@gmail.com',
   smtpPass: 'lsluehumygpemvrn'
 }

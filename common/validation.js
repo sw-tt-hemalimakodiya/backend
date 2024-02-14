@@ -14,8 +14,16 @@ const validateCategory = [
   displayError
 ]
 
-const validateUser = [
+const validateUserRegister = [
   body('username').notEmpty().withMessage('Username is required'),
+  body('email').notEmpty().withMessage('Email is required'),
+  body('email').isEmail().withMessage('Please enter valid email'),
+  body('password').notEmpty().withMessage('Password is required'),
+  body('password').isLength({ min: 6 }).withMessage('Password min length 6'),
+  displayError
+]
+
+const validateUserLogin = [
   body('email').notEmpty().withMessage('Email is required'),
   body('email').isEmail().withMessage('Please enter valid email'),
   body('password').notEmpty().withMessage('Password is required'),
@@ -25,5 +33,6 @@ const validateUser = [
 
 module.exports = {
   validateCategory,
-  validateUser
+  validateUserRegister,
+  validateUserLogin
 }
