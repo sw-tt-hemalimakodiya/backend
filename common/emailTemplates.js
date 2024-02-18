@@ -1,8 +1,8 @@
 const { projectName } = require('./../config')
 
 const userRegister = {
-    subject: 'Welcome to ' + projectName,
-    template: `
+  subject: 'Welcome to ' + projectName,
+  template: `
     <!DOCTYPE html>
     <html>
         <head>
@@ -62,7 +62,6 @@ const userRegister = {
     </html>`
 }
 
-
 module.exports = {
-    userRegister
+  userRegister
 }

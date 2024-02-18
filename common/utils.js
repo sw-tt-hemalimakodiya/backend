@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken')
-const CryptoJS = require('crypto-js')
 const nodemailer = require('nodemailer')
 const { jwtSecretKey, jwtExpiresIn, projectName, smtpServices, smtpHost, smtpPort, smtpSecure, smtpUser, smtpPass } = require('./../config')
 
@@ -36,44 +35,42 @@ const verifyToken = (req, res, next) => {
       }
     })
   } else {
-    next({ status: 401, message: "Unauthorized access" })
+    next({ status: 401, message: 'Unauthorized access' })
   }
 }
 
 // ==== Send email ========
-const sendMail = (recipients, subject, emailBody) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-      const transporter = nodemailer.createTransport({
-        service: smtpServices,
-        host: smtpHost,
-        port: smtpPort,
-        secure: smtpSecure,
-        auth: {
-          // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-          user: smtpUser,
-          pass: smtpPass
-        }
-      })
+const sendMail = async (recipients, subject, emailBody) => {
+  try {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+    const transporter = nodemailer.createTransport({
+      service: smtpServices,
+      host: smtpHost,
+      port: smtpPort,
+      secure: smtpSecure,
+      auth: {
+        // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+        user: smtpUser,
+        pass: smtpPass
+      }
+    })
 
-      const info = await transporter.sendMail({
-        from: projectName + ' <' + smtpUser + '>', // sender address
-        to: recipients, // list of receivers
-        subject, // Subject line
-        html: emailBody // html body
-      })
-      resolve(info)
-    } catch (error) {
-      reject(error)
-    }
-  })
+    const info = await transporter.sendMail({
+      from: projectName + ' <' + smtpUser + '>', // sender address
+      to: recipients, // list of receivers
+      subject, // Subject line
+      html: emailBody // html body
+    })
+    return info
+  } catch (error) {
+    console.log('error while sending mail : ', error)
+  }
 }
 
 const prepareMail = (templateName, data) => {
-  let { subject, template } = templateName;
-  for (let key in data) {
-    template = (template).replace(new RegExp('{{' + key + '}}', "g"), data[key])
+  let { subject, template } = templateName
+  for (const key in data) {
+    template = (template).replace(new RegExp('{{' + key + '}}', 'g'), data[key])
   }
   return { subject, template }
 }
