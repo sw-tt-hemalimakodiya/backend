@@ -1,16 +1,18 @@
 const express = require('express')
 const { initPool } = require('./core/db')
 const { verifyToken } = require('./common/utils')
+const cors = require('cors')
 
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cors())
 
 // Initialze database
 app.initDB = async (poolPromise) => { app.pool = await initPool(poolPromise) }
 
 // Verify token on each request.
-app.use(verifyToken)
+// app.use(verifyToken)
 
 // Link router
 require('./routes')(app)
