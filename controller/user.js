@@ -19,7 +19,6 @@ const register = async (req, res, next) => {
     const { username, email, password } = req.body
     const user = new UserSchema({ username, email, password })
     await user.setPassword(password)
-    user.authToken = await generateAuthToken(email)
     const data = await user.save()
     if (data) {
       const { subject, template } = await prepareMail(userRegister, { Name: username, Your_Company_Name: 'Tchnoapps development' })
@@ -40,6 +39,8 @@ const login = async (req, res, next) => {
     } else if (!data.validPassword(password)) {
       next({ status: 401, message: 'Invalid Password' })
     } else {
+      data.authToken = await generateAuthToken(email)
+      console.log('inside else ====', data)
       res.status(SUCCESS).json({ status: SUCCESS, data })
     }
   } catch (error) {

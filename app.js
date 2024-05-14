@@ -12,7 +12,7 @@ app.use(cors())
 app.initDB = async (poolPromise) => { app.pool = await initPool(poolPromise) }
 
 // Verify token on each request.
-// app.use(verifyToken)
+app.use(verifyToken)
 
 // Link router
 require('./routes')(app)

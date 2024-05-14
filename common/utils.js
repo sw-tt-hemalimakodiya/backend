@@ -10,10 +10,10 @@ const generateAuthToken = (email) => {
 // Verify token
 const verifyToken = (req, res, next) => {
   const reqToByPass = [
-    '/api/user/login',
-    '/api/user/register',
-    '/api/user/forgot-password',
-    '/api/user/reset-password'
+    '/user/login',
+    '/user/register',
+    '/user/forgot-password',
+    '/user/reset-password'
   ]
 
   if (reqToByPass.indexOf(req.path) !== -1) {
@@ -23,10 +23,10 @@ const verifyToken = (req, res, next) => {
     jwt.verify(token, jwtSecretKey, { algorithms: ['HS256'] }, function (err, payload) {
       if (err) {
         let msg = 'Invalid Token'
-        if (res.name === 'TokenExpiredError') {
+        if (err.name === 'TokenExpiredError') {
           msg = 'Token is expired'
         }
-        next({ status: 401, message: msg || res.message })
+        next({ status: 401, message: msg || err.message })
       } else {
         // let bytes  = CryptoJS.AES.decrypt(payload.data, jwtSecretKey)
         // let decryptedData  = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))

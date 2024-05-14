@@ -7,7 +7,6 @@ const userSchema = new Schema({
   email: { type: String, required: true, trim: true, unique: true },
   password: { type: String, required: true, trim: true },
   phoneNo: { type: String, trim: true },
-  authToken: { type: String, trim: true },
   status: { type: Number, default: 1 },
   isDeleted: { type: Number, default: 0 }
 },

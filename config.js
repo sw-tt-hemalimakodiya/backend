@@ -5,7 +5,7 @@ module.exports = {
 
   projectName: 'Techno Apps',
   jwtSecretKey: 'SUPPAMA@2021',
-  jwtExpiresIn: '365d',
+  jwtExpiresIn: '3m',
   smtpServices: 'gmail',
   smtpHost: 'smtp.gmail.com',
   smtpPort: 465,
