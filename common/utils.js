@@ -16,7 +16,11 @@ const verifyToken = (req, res, next) => {
     '/user/reset-password'
   ]
 
+  console.log('req.path ===', req.path)
+  console.log('reqToByPass.indexOf(req.path) ===', reqToByPass.indexOf(req.path))
+
   if (reqToByPass.indexOf(req.path) !== -1) {
+    console.log('inside if =====')
     next()
   } else if (req.headers.authorization) {
     const token = req.headers.authorization.split(' ')[1]

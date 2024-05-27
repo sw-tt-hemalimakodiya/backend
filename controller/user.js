@@ -17,6 +17,10 @@ const getUser = async (req, res, next) => {
 const register = async (req, res, next) => {
   try {
     const { username, email, password } = req.body
+    const isEmail = await UserSchema.findOne({ email, isDeleted: 0 })
+    if (isEmail) {
+      next({ status: 401, message: 'Email already exists' })
+    }
     const user = new UserSchema({ username, email, password })
     await user.setPassword(password)
     const data = await user.save()
@@ -39,9 +43,8 @@ const login = async (req, res, next) => {
     } else if (!data.validPassword(password)) {
       next({ status: 401, message: 'Invalid Password' })
     } else {
-      data.authToken = await generateAuthToken(email)
-      console.log('inside else ====', data)
-      res.status(SUCCESS).json({ status: SUCCESS, data })
+      const authToken = await generateAuthToken(email)
+      res.status(SUCCESS).json({ status: SUCCESS, data: { ...data.toJSON(), authToken } })
     }
   } catch (error) {
     next(error)
