@@ -8,8 +8,11 @@ const displayError = (req, res, next) => {
   next()
 }
 
-const validateCategory = [
-  body('name').notEmpty().withMessage('Category name is required'),
+const validateUserLogin = [
+  body('email').notEmpty().withMessage('Email is required'),
+  body('email').isEmail().withMessage('Please enter valid email'),
+  body('password').notEmpty().withMessage('Password is required'),
+  body('password').isLength({ min: 6 }).withMessage('Password min length 6'),
   displayError
 ]
 
@@ -22,16 +25,21 @@ const validateUserRegister = [
   displayError
 ]
 
-const validateUserLogin = [
-  body('email').notEmpty().withMessage('Email is required'),
-  body('email').isEmail().withMessage('Please enter valid email'),
-  body('password').notEmpty().withMessage('Password is required'),
-  body('password').isLength({ min: 6 }).withMessage('Password min length 6'),
+const validateCategory = [
+  body('name').notEmpty().withMessage('Category name is required'),
+  displayError
+]
+
+const validateProduct = [
+  body('category_id').notEmpty().withMessage('Category Id is required'),
+  body('name').notEmpty().withMessage('Product name is required'),
+  body('price').notEmpty().withMessage('Product price is required'),
   displayError
 ]
 
 module.exports = {
-  validateCategory,
+  validateUserLogin,
   validateUserRegister,
-  validateUserLogin
+  validateCategory,
+  validateProduct
 }
