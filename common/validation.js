@@ -31,7 +31,7 @@ const validateCategory = [
 ]
 
 const validateProduct = [
-  body('category_id').notEmpty().withMessage('Category Id is required'),
+  body('categoryId').notEmpty().withMessage('Category Id is required'),
   body('name').notEmpty().withMessage('Product name is required'),
   body('price').notEmpty().withMessage('Product price is required'),
   displayError

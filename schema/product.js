@@ -4,7 +4,7 @@ const productSchema = new mongoose.Schema({
   _id: {
     type: String
   },
-  category_id: {
+  categoryId: {
     type: String, ref: 'categories'
   },
   name: {

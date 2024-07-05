@@ -47,9 +47,13 @@ const editCategory = async (req, res, next) => {
 const deleteCategory = async (req, res, next) => {
   try {
     const { id } = req.params
-    const data = await CategorySchema.findOneAndUpdate({ _id: id, isDeleted: 0 }, { $set: { isDeleted: 1 } })
+    const data = await CategorySchema.findOneAndUpdate({ _id: id, isDeleted: 0 }, { $set: { isDeleted: 1 } }, { operationName: 'delete' })
     res.status(SUCCESS).json({ status: SUCCESS, data })
   } catch (error) {
+    if (error.name === 'HasOrdersError') {
+      console.log("inside if ===== ", error)
+      console.log(error.message); // Handle the warning
+    }
     next(error)
   }
 }

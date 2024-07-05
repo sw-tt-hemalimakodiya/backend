@@ -3,7 +3,38 @@ const { SUCCESS } = require('../core/constant').responseStatus
 
 const productList = async (req, res, next) => {
   try {
-    const data = await ProductSchema.find({ isDeleted: 0 }).sort({ createdAt: -1 }) || []
+    // const data = await ProductSchema.find({ isDeleted: 0 }).sort({ createdAt: -1 }) || []
+    const data = await ProductSchema.aggregate([
+      {
+        $match: { isDeleted: 0 }
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'categoryId',
+          foreignField: '_id',
+          as: 'categoryData'
+        }
+      },
+      { $unwind: { path: '$categoryData', preserveNullAndEmptyArrays: true } },
+      {
+        $sort: { createdAt: -1 }
+      }, 
+      {
+        $project: {
+          _id:1,
+          categoryId:1,
+          category:'$categoryData.name',
+          name:1,
+          price:1,
+          imagePath:1,
+          status:1,
+          isDeleted:1,
+          createdAt:1,
+          updatedAt:1,
+        }
+      }
+    ])
     res.status(SUCCESS).json({ status: SUCCESS, data })
   } catch (error) {
     next(error)
